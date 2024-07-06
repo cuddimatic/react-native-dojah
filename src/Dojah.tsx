@@ -25,7 +25,6 @@ import type { Metadata } from './types/metadata.type';
 const PLATFORM_CAMERA: Permission =
     Platform.OS === 'android' ? PERMISSIONS.ANDROID.CAMERA : PERMISSIONS.IOS.CAMERA;
 
-
 const PLATFORM_LOCATION = Platform.OS === 'android'
     ? [
         PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION,
@@ -33,25 +32,23 @@ const PLATFORM_LOCATION = Platform.OS === 'android'
     ]
     : PERMISSIONS.IOS.LOCATION_ALWAYS;
 
-
-
 const DojahWidget = (props: DojahProps) => {
-
     const { appId, publicKey, userData, metadata, config, type, response } = props;
 
     const [permissionsGranted, setPermissionsGranted] = useState<{ camera?: boolean, location?: boolean }>({
         location: undefined,
         camera: undefined,
     });
-    type PermissionsObjKey = keyof typeof permissionsGranted;
 
+    type PermissionsObjKey = keyof typeof permissionsGranted;
 
     const [location, setLocation] = useState<Geolocation.GeoPosition>();
 
     const pages = useMemo(
-        () => (!config.pages ? [] : config.pages.map((page: any) => page.page)),
+        () => config.pages ? config.pages.map((page: any) => page.page) : [],
         [config.pages],
     );
+
     const needsCamera = useMemo(
         () =>
             ['liveness', 'verification'].includes(type) ||
@@ -60,18 +57,17 @@ const DojahWidget = (props: DojahProps) => {
             pages.includes('face-id'),
         [pages, type],
     );
+
     const needsLocation = useMemo(() => {
-        return config.pages.some(
+        return config.pages?.some(
             (page: any) =>
                 page.page === 'address' &&
-                (typeof page.config?.verification === undefined ||
+                (typeof page.config?.verification === 'undefined' ||
                     page.config?.verification === true),
         );
     }, [config.pages]);
 
-    console.log({ needsLocation })
-
-
+    console.log({ needsLocation });
 
     const log = useCallback(
         (...args: any[]) => {
@@ -80,13 +76,10 @@ const DojahWidget = (props: DojahProps) => {
         [config.debug],
     );
 
-
     const permissionsNeeded = useMemo(() => needsCamera || needsLocation, [
         needsCamera,
         needsLocation,
     ]);
-
-
 
     const getCurrentPosition = useCallback(() => {
         Geolocation.getCurrentPosition(
@@ -111,8 +104,6 @@ const DojahWidget = (props: DojahProps) => {
             },
         );
     }, [log]);
-
-
 
     const makeRequest = useCallback(
         (permissions: Permission[]) => {
@@ -152,7 +143,6 @@ const DojahWidget = (props: DojahProps) => {
         [log, getCurrentPosition],
     );
 
-
     const requestPermission = useCallback(() => {
         const permissions: Permission[] = [
             needsCamera && PLATFORM_CAMERA,
@@ -161,10 +151,9 @@ const DojahWidget = (props: DojahProps) => {
             .filter((perm) => !!perm)
             .flatMap((item) => item);
 
-        console.log(permissions)
+        console.log(permissions);
 
-
-        console.log("Checking multiple")
+        console.log("Checking multiple");
 
         checkMultiple(permissions)
             .then((statuses) => {
@@ -229,7 +218,6 @@ const DojahWidget = (props: DojahProps) => {
     }, [getCurrentPosition, log, makeRequest, needsCamera, needsLocation]);
 
     useEffect(() => {
-
         if (permissionsNeeded) {
             requestPermission();
         }
@@ -243,8 +231,6 @@ const DojahWidget = (props: DojahProps) => {
         needsLocation,
         response,
     ]);
-
-
 
     if (permissionsNeeded) {
         if (
@@ -265,14 +251,11 @@ const DojahWidget = (props: DojahProps) => {
             return (
                 <View style={styles.center}>
                     <Text style={styles.text}>
-                        You need to grant all necessary permissions. You denied the the
-                        following permissions:{' '}
+                        You need to grant all necessary permissions. You denied the following permissions:{' '}
                         {Object.keys(permissionsGranted)
                             .map((permission) => {
-
                                 const key = permission as PermissionsObjKey;
-
-                                return (!permissionsGranted[`${key}`] ? permission : null)
+                                return (!permissionsGranted[`${key}`] ? permission : null);
                             })
                             .filter((permission) => !!permission)
                             .join(', ')}
@@ -339,9 +322,7 @@ const DojahWidget = (props: DojahProps) => {
                     response(data.type, data);
                 }}
             />
-
         </View>
-
     )
 }
 
@@ -392,7 +373,6 @@ DojahWidget.hydrate = (appId: string, pKey: string) => {
     );
 };
 
-
 const styles = StyleSheet.create({
     center: {
         justifyContent: 'center',
@@ -415,8 +395,7 @@ type DojahProps = {
     config: any;
     userData?: UserData;
     metadata?: Metadata;
-    // widgetId?: string;
     response: (responseType: string, data?: any) => void;
 }
 
-export default DojahWidget
+export default DojahWidget;
