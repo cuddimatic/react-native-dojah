@@ -1,20 +1,18 @@
 # react-native-dojah
 
-> https://github.com/cjayprime/react-native-dojah
-
 [![NPM](https://img.shields.io/npm/v/react-native-dojah.svg)](https://www.npmjs.com/package/react-native-dojah) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 
 ## Install
 
 ```sh
-npm install react-native-dojah-lib --save
+npm install react-native-dojah --save
 ```
 
 or with `yarn`
 
 ```sh
-yarn add react-native-dojah-lib
+yarn add react-native-dojah
 ```
 
 Required Packages
