@@ -1,5 +1,5 @@
 {
-  "name": "react-native-dojah-lib",
+  "name": "react-native-dojah",
   "version": "0.1.1",
   "description": "test",
   "main": "lib/commonjs/index",
@@ -40,13 +40,15 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/sanchezqb/react-native-dojah",
-  "author": "Chisom Ekwuribe <chisom@dojah.io> (https://github.com/sanchezqb)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dojah-inc/React-native-SDK.git"
+  },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sanchezqb/react-native-dojah/issues"
+    "url": "https://github.com/dojah-inc/React-native-SDK/issues"
   },
-  "homepage": "https://github.com/sanchezqb/react-native-dojah#readme",
+  "homepage": "https://github.com/dojah-inc/React-native-SDK#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
